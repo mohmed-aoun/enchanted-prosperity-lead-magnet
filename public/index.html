@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Enchanted Prosperity | Ultimate Credit Guide Quiz</title>
+    <meta
+      name="description"
+      content="Take Enchanted Prosperity's 60-second credit literacy quiz to unlock personalized steps to rebuild your credit and access The Ultimate Credit Guide."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+    <script defer src="/app.js"></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="logo">Enchanted <span>Prosperity</span></div>
+      <div class="topbar__cta">Your credit comeback starts today.</div>
+    </header>
+
+    <main>
+      <section class="hero" id="hero">
+        <div class="hero__background"></div>
+        <div class="hero__content">
+          <div class="hero__copy animate-fade-up">
+            <h1>Think Your Credit’s Just “Bad”? Take This 60-Second Quiz to Find Out What’s Really Holding You Back.</h1>
+            <p>
+              Uncover your credit literacy level and learn insider steps to fix it — results delivered straight to your inbox.
+            </p>
+            <ul class="benefit-list">
+              <li>Pinpoint the habits secretly dragging down your score</li>
+              <li>See exactly which action to take next</li>
+              <li>Get a personalized roadmap plus a special offer on The Ultimate Credit Guide</li>
+            </ul>
+          </div>
+          <div class="lead-card animate-fade-in" id="leadCard">
+            <form id="leadForm" class="lead-form" autocomplete="on">
+              <h2>Start Here</h2>
+              <p class="muted">Enter your details to unlock the quiz. We’ll send your results right away.</p>
+              <label class="input-field">
+                <span>Name</span>
+                <input type="text" name="name" placeholder="First &amp; Last Name" required />
+              </label>
+              <label class="input-field">
+                <span>Email</span>
+                <input type="email" name="email" placeholder="you@email.com" required />
+              </label>
+              <input type="hidden" name="utm_source" />
+              <input type="hidden" name="utm_medium" />
+              <input type="hidden" name="utm_campaign" />
+              <input type="hidden" name="utm_content" />
+              <button type="submit" class="primary-button">
+                <span>Start My Credit Quiz</span>
+                <span aria-hidden="true">→</span>
+              </button>
+              <p class="privacy">We respect your inbox. No spam, just the guidance you asked for.</p>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <section class="quiz" id="quiz" aria-live="polite">
+        <div class="quiz__container">
+          <div class="quiz__header">
+            <h2>Credit Clarity Quiz</h2>
+            <p>Answer honestly — every insight helps us tailor your plan.</p>
+            <div class="progress">
+              <div class="progress__bar" id="quizProgress"></div>
+            </div>
+          </div>
+          <form id="quizForm" class="quiz-form">
+            <div class="quiz-step" data-question="How confident are you in understanding credit scores?">
+              <h3>How confident are you in understanding credit scores?</h3>
+              <div class="options">
+                <label><input type="radio" name="confidence" value="Very confident" required /> Very confident</label>
+                <label><input type="radio" name="confidence" value="Somewhat confident" /> Somewhat confident</label>
+                <label><input type="radio" name="confidence" value="Not confident at all" /> Not confident at all</label>
+              </div>
+            </div>
+
+            <div class="quiz-step" data-question="Has paying off debt ever lowered your score?">
+              <h3>Has paying off debt ever lowered your score?</h3>
+              <div class="options">
+                <label><input type="radio" name="payoff" value="Yes, and it confused me" required /> Yes, and it confused me</label>
+                <label><input type="radio" name="payoff" value="No, I haven’t noticed" /> No, I haven’t noticed</label>
+                <label><input type="radio" name="payoff" value="I’m not sure" /> I’m not sure</label>
+              </div>
+            </div>
+
+            <div class="quiz-step" data-question="What’s your biggest credit goal?">
+              <h3>What’s your biggest credit goal?</h3>
+              <div class="options">
+                <label><input type="radio" name="goal" value="Buy a home or car" required /> Buy a home or car</label>
+                <label><input type="radio" name="goal" value="Qualify for better cards" /> Qualify for better cards</label>
+                <label><input type="radio" name="goal" value="Boost my score fast" /> Boost my score fast</label>
+                <label><input type="radio" name="goal" value="Have peace of mind" /> Have peace of mind</label>
+              </div>
+            </div>
+
+            <div class="quiz-step" data-question="Have you used a credit repair service before?">
+              <h3>Have you used a credit repair service before?</h3>
+              <div class="options">
+                <label><input type="radio" name="repair" value="Yes, and it helped" required /> Yes, and it helped</label>
+                <label><input type="radio" name="repair" value="Yes, but it didn’t work" /> Yes, but it didn’t work</label>
+                <label><input type="radio" name="repair" value="No, never tried" /> No, never tried</label>
+              </div>
+            </div>
+
+            <div class="quiz-step" data-question="How do you feel about credit cards?">
+              <h3>How do you feel about credit cards?</h3>
+              <div class="options">
+                <label><input type="radio" name="cards" value="They’re powerful when used right" required /> They’re powerful when used right</label>
+                <label><input type="radio" name="cards" value="They make me nervous" /> They make me nervous</label>
+                <label><input type="radio" name="cards" value="I avoid them completely" /> I avoid them completely</label>
+              </div>
+            </div>
+
+            <div class="quiz-step" data-question="If you could change one thing about your credit, what would it be?">
+              <h3>If you could change one thing about your credit, what would it be?</h3>
+              <textarea name="changeOneThing" rows="3" placeholder="Share your thoughts (optional)"></textarea>
+            </div>
+
+            <div class="quiz-step" data-question="What’s your current credit score range?">
+              <h3>What’s your current credit score range?</h3>
+              <div class="options">
+                <label><input type="radio" name="range" value="300-499" required /> 300-499</label>
+                <label><input type="radio" name="range" value="500-579" /> 500-579</label>
+                <label><input type="radio" name="range" value="580-669" /> 580-669</label>
+                <label><input type="radio" name="range" value="670-739" /> 670-739</label>
+                <label><input type="radio" name="range" value="740+" /> 740+</label>
+              </div>
+            </div>
+
+            <div class="quiz-controls">
+              <button type="button" class="ghost-button" id="prevQuestion">← Previous</button>
+              <button type="button" class="primary-button" id="nextQuestion">Next →</button>
+              <button type="submit" class="primary-button" id="submitQuiz">Submit My Results →</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <section class="thank-you" id="thankYou">
+        <div class="thank-you__card animate-fade-in">
+          <h2>✅ Thank You! Your Results Are On The Way.</h2>
+          <p>While you wait, discover how thousands are fixing their credit with the Ultimate Credit Guide.</p>
+          <div class="offer">
+            <img src="/assets/guide-cover.svg" alt="Ultimate Credit Guide" />
+            <div class="offer__details">
+              <h3>The Ultimate Credit Guide</h3>
+              <ul>
+                <li>Legally remove negative items fast</li>
+                <li>Rebuild using insider <strong>Credit Reset Method™</strong></li>
+                <li>Regain financial freedom and confidence</li>
+              </ul>
+              <a class="primary-button" id="offerCta" href="#" target="_blank" rel="noopener">
+                Get The Guide Now →
+              </a>
+            </div>
+          </div>
+          <p class="transform">You’ve taken the first step — now take control.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="footer__trust">
+        <div class="trust-icon">🔒 Secure Checkout</div>
+        <div class="trust-icon">💳 SSL Encrypted</div>
+        <div class="trust-icon">⭐️ 4.9/5 Rated Support</div>
+      </div>
+      <p>© <span id="year"></span> Enchanted Prosperity. All rights reserved.</p>
+    </footer>
+
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+      gtag('config', 'GA_MEASUREMENT_ID');
+    </script>
+    <script>
+      !(function (f, b, e, v, n, t, s) {
+        if (f.fbq) return;
+        n = f.fbq = function () {
+          n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
+        };
+        if (!f._fbq) f._fbq = n;
+        n.push = n;
+        n.loaded = !0;
+        n.version = '2.0';
+        n.queue = [];
+        t = b.createElement(e);
+        t.async = !0;
+        t.src = v;
+        s = b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t, s);
+      })(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', 'META_PIXEL_ID');
+      fbq('track', 'PageView');
+    </script>
+    <noscript>
+      <img
+        height="1"
+        width="1"
+        style="display: none"
+        src="https://www.facebook.com/tr?id=META_PIXEL_ID&ev=PageView&noscript=1"
+        alt=""
+      />
+    </noscript>
+  </body>
+</html>

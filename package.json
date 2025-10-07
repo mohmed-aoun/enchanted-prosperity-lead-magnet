@@ -1,0 +1,13 @@
+{
+  "name": "enchanted-prosperity-lead-magnet",
+  "version": "1.0.0",
+  "description": "Landing page and backend for Enchanted Prosperity's Ultimate Credit Guide quiz funnel.",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
