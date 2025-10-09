@@ -1,13 +1,14 @@
 {
   "name": "enchanted-prosperity-lead-magnet",
   "version": "1.0.0",
-  "description": "Landing page and backend for Enchanted Prosperity's Ultimate Credit Guide quiz funnel.",
-  "main": "server.js",
+  "description": "Lead magnet website and backend for the Ultimate Credit Guide quiz funnel.",
   "type": "module",
   "scripts": {
-    "start": "node server.js",
-    "dev": "node --watch server.js"
+  "dev": "vercel dev",
+  "start": "node api/config.js", 
+  "preview": "vercel dev --prebuilt"
   },
-  "dependencies": {},
-  "devDependencies": {}
+  "dependencies": {
+    "node-fetch": "^3.3.2"
+  }
 }

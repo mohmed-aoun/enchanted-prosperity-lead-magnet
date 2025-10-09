@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let leadId = null;
   let currentStep = 0;
 
-  fetch('/api/config')
+  fetch('/api/lead')
     .then((res) => res.json())
     .then((config) => {
       if (config?.upsellUrl) {
@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     })
     .catch(() => {
-      offerCta.href = 'https://enchantedprosperity.com/ultimate-credit-guide';
+      offerCta.href = 'https://payhip.com/b/Lnsjh/af68defc385c8e9';
     });
 
   document.getElementById('year').textContent = new Date().getFullYear();
