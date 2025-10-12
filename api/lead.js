@@ -27,6 +27,7 @@ export default async function handler(req, res) {
     const row = { name, email, result };
 
     // Send to Google Sheets
+    console.log("SHEETS_ENDPOINT:", process.env.SHEETS_ENDPOINT);
     if (process.env.SHEETS_ENDPOINT) {
       try {
         const sheetResponse = await fetch(process.env.SHEETS_ENDPOINT, {
