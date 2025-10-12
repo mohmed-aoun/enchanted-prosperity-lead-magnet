@@ -4,8 +4,8 @@
   --midnight-shadow: #130e33;
   --brand-purple: #512791;
   --lavender: #d4b9ff;
-  --accent-gold: #eacd76;
-  --accent-gold-dark: #c89e43;
+  --prosper-purple: #9d00ff;
+  --prosper-purpel-dark: #490077;
   --text-primary: #f2f2f2;
   --text-muted: rgba(242, 242, 242, 0.72);
   --card-bg: rgba(26, 20, 59, 0.9);
@@ -49,16 +49,42 @@ a {
   box-shadow: 0 8px 24px rgba(11, 6, 36, 0.35);
 }
 
+.topbar__left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: rgba(255, 255, 255, 0.08); /* subtle glass background */
+  border: 1px solid rgba(212, 185, 255, 0.3);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(6px);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.logo-icon:hover {
+  transform: scale(1.05) rotate(4deg);
+  box-shadow: 0 6px 18px rgba(88, 19, 214, 0.28);
+}
+
+
 .logo {
-  font-family: 'Playfair Display', serif;
+  display: inline-block;
+  font-family: 'Poppins', serif;
   font-size: 1.5rem;
   font-weight: 600;
   letter-spacing: 0.04em;
   color: var(--text-primary);
+  margin: 0;
 }
 
 .logo span {
-  color: var(--accent-gold);
+  color: var(--prosper-purple);
 }
 
 .topbar__cta {
@@ -218,17 +244,17 @@ textarea {
   font-weight: 600;
   font-size: 1rem;
   letter-spacing: 0.02em;
-  background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-dark));
-  color: var(--midnight);
+  background: linear-gradient(135deg, var(--prosper-purple), var(--prosper-purpel-dark));
+  color: var(--lavender);
   cursor: pointer;
-  box-shadow: 0 18px 34px rgba(234, 205, 118, 0.28);
+  box-shadow: 0 18px 34px rgba(67, 15, 163, 0.28);
   transition: transform var(--transition), box-shadow var(--transition), filter var(--transition),
     background var(--transition);
 }
 
 .primary-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 20px 38px rgba(200, 158, 67, 0.35);
+  box-shadow: 0 20px 38px rgba(88, 19, 214, 0.28);
   filter: brightness(1.02);
 }
 
@@ -445,6 +471,82 @@ textarea {
   color: var(--text-primary);
 }
 
+/* Updated form styling to blend with site theme */
+.github-style {
+  max-width: 420px;
+  margin: 2.5rem auto;
+  padding: 2.5rem;
+  border-radius: var(--radius);
+  background: var(--card-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 30px 90px rgba(13, 7, 37, 0.65);
+  color: var(--text-primary);
+  animation: fadeInUp 0.5s ease both;
+}
+
+.github-style h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: var(--accent-gold);
+  text-align: center;
+}
+
+.github-style label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--lavender);
+  font-size: 0.9rem;
+}
+
+.github-style input {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(196, 184, 255, 0.4);
+  background: rgba(30, 23, 67, 0.65);
+  color: var(--text-primary);
+  font-size: 1rem;
+  margin-bottom: 1.2rem;
+  transition: border var(--transition), box-shadow var(--transition);
+}
+
+.github-style input::placeholder {
+  color: rgba(212, 185, 255, 0.6);
+}
+
+.github-style input:focus {
+  outline: none;
+  border-color: rgba(234, 205, 118, 0.75);
+  box-shadow: 0 0 0 3px rgba(234, 205, 118, 0.25);
+}
+
+.github-style button {
+  width: 100%;
+  padding: 14px 28px;
+  border-radius: 999px;
+  border: none;
+  background: linear-gradient(135deg, var(--prosper-purple), var(--prosper-purpel-dark));
+  color: var(--lavender);
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform var(--transition), box-shadow var(--transition), filter var(--transition);
+  box-shadow: 0 18px 34px rgba(67, 15, 163, 0.28);
+}
+
+.github-style button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 38px rgba(88, 19, 214, 0.28);
+  filter: brightness(1.03);
+}
+
+.github-style .privacy {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: 14px;
+  text-align: center;
+}
+
 .transform {
   font-size: 1.1rem;
   color: var(--text-muted);
@@ -481,10 +583,10 @@ textarea {
 .trust-icon svg {
   width: 20px;
   height: 20px;
-  stroke: var(--accent-gold);
+  stroke: var(--prosper-purple);
   stroke-width: 1.8;
   fill: transparent;
-  filter: drop-shadow(0 0 6px rgba(234, 205, 118, 0.35));
+  filter: drop-shadow(0 0 6px rgba(67, 15, 163, 0.28));
 }
 
 .animate-fade-in {

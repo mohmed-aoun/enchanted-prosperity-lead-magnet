@@ -19,7 +19,10 @@
   </head>
   <body>
     <header class="topbar">
-      <div class="logo">Enchanted <span>Prosperity</span></div>
+      <div class="topbar__left">
+        <img src="assets/ep_logo.avif" alt="Enchanted Prosperity Logo" class="logo-icon" />
+        <div class="logo">Enchanted <span>Prosperity</span></div>
+      </div>
       <div class="topbar__cta">Your credit comeback starts today.</div>
     </header>
 
@@ -39,27 +42,11 @@
             </ul>
           </div>
           <div class="lead-card animate-fade-in" id="leadCard">
-            <form id="leadForm" class="lead-form" autocomplete="on">
-              <h2>Start Here</h2>
-              <p class="muted">Enter your details to unlock the quiz. We’ll send your results right away.</p>
-              <label class="input-field">
-                <span>Name</span>
-                <input type="text" name="name" placeholder="First &amp; Last Name" required />
-              </label>
-              <label class="input-field">
-                <span>Email</span>
-                <input type="email" name="email" placeholder="you@email.com" required />
-              </label>
-              <input type="hidden" name="utm_source" />
-              <input type="hidden" name="utm_medium" />
-              <input type="hidden" name="utm_campaign" />
-              <input type="hidden" name="utm_content" />
-              <button type="submit" class="primary-button">
-                <span>Start My Credit Quiz</span>
-                <span aria-hidden="true">→</span>
-              </button>
-              <p class="privacy">We respect your inbox. No spam, just the guidance you asked for.</p>
-            </form>
+            <div class="lead-confirmation">
+              <h2>Ready to discover your credit breakthrough?</h2>
+              <p class="muted">Take the short quiz below to get your personalized roadmap.</p>
+              <button class="primary-button" id="startQuizButton">Start My Credit Quiz →</button>
+            </div>
           </div>
         </div>
       </section>
@@ -144,6 +131,22 @@
           </form>
         </div>
       </section>
+
+      <section id="postQuizForm" class="post-quiz-form">
+        <form id="afterQuizForm" class="lead-form github-style">
+          <h2>Almost done — where should we send your results?</h2>
+          <label class="input-field">
+            <span>Name</span>
+              <input type="text" name="name" placeholder="Your full name" required />
+          </label>
+          <label class="input-field">
+            <span>Email</span>
+              <input type="email" name="email" placeholder="you@example.com" required />
+          </label>
+          <button type="submit" class="primary-button">Get My Results →</button>
+        </form>
+      </section>
+
 
       <section class="thank-you" id="thankYou">
         <div class="thank-you__card animate-fade-in">

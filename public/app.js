@@ -1,6 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const leadForm = document.getElementById('leadForm');
-  const leadCard = document.getElementById('leadCard');
   const quizSection = document.getElementById('quiz');
   const quizForm = document.getElementById('quizForm');
   const steps = Array.from(document.querySelectorAll('.quiz-step'));
@@ -11,6 +9,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const thankYouSection = document.getElementById('thankYou');
   const offerCta = document.getElementById('offerCta');
   const heroSection = document.getElementById('hero');
+  const leadCard = document.getElementById('leadCard');
+  const postQuizForm = document.getElementById('postQuizForm');
+  const afterQuizForm = document.getElementById('afterQuizForm');
+  const startQuizButton = document.getElementById('startQuizButton');
 
   let leadId = null;
   let currentStep = 0;
@@ -28,14 +30,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.getElementById('year').textContent = new Date().getFullYear();
 
-  const params = new URLSearchParams(window.location.search);
-  ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content'].forEach((key) => {
-    const field = leadForm.querySelector(`[name="${key}"]`);
-    if (field) {
-      field.value = params.get(key) || '';
-    }
-  });
-
   function setStep(index) {
     steps.forEach((step, idx) => {
       step.classList.toggle('active', idx === index);
@@ -50,9 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function stepIsValid(stepElement) {
     const requiredInputs = Array.from(stepElement.querySelectorAll('input[required]'));
-    if (!requiredInputs.length) {
-      return true;
-    }
+    if (!requiredInputs.length) return true;
     return requiredInputs.some((input) => {
       if (input.type === 'radio') {
         const group = stepElement.querySelectorAll(`input[name="${input.name}"]`);
@@ -80,65 +72,30 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function showQuiz() {
+    leadCard.style.display = 'none';
     quizSection.classList.add('active');
     heroSection.classList.add('submitted');
     setStep(0);
     window.scrollTo({ top: quizSection.offsetTop - 40, behavior: 'smooth' });
   }
 
-  function showThankYou() {
+  function showPostQuizForm() {
     quizSection.classList.remove('active');
+    postQuizForm.classList.add('active');
+    window.scrollTo({ top: postQuizForm.offsetTop - 40, behavior: 'smooth' });
+  }
+
+  function showThankYou() {
+    postQuizForm.classList.remove('active');
     thankYouSection.classList.add('active');
     window.scrollTo({ top: thankYouSection.offsetTop - 40, behavior: 'smooth' });
   }
 
-  leadForm.addEventListener('submit', async (event) => {
-    event.preventDefault();
-    const submitBtn = leadForm.querySelector('button[type="submit"]');
-    submitBtn.disabled = true;
-    submitBtn.dataset.originalText = submitBtn.textContent;
-    submitBtn.textContent = 'Submitting…';
-
-    const formData = new FormData(leadForm);
-    const payload = Object.fromEntries(formData.entries());
-
-    try {
-      const response = await fetch('/api/lead', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
-
-      if (!response.ok) {
-        throw new Error('Unable to save lead');
-      }
-
-      const data = await response.json();
-      leadId = data.leadId;
-      leadCard.classList.add('success');
-      leadCard.innerHTML = `
-        <div class="lead-confirmation">
-          <h2>Great! Let’s Pinpoint Your Credit Breakthrough.</h2>
-          <p class="muted">Answer the next questions so we can craft your personalized roadmap.</p>
-          <button class="primary-button" id="startQuizButton">Take the Quiz →</button>
-        </div>
-      `;
-      const startQuizButton = document.getElementById('startQuizButton');
-      startQuizButton.addEventListener('click', () => {
-        showQuiz();
-      });
-      showQuiz();
-    } catch (error) {
-      alert('We could not capture your details. Please try again.');
-      submitBtn.disabled = false;
-      submitBtn.textContent = submitBtn.dataset.originalText || 'Start My Credit Quiz';
-    }
-  });
+  // Start Quiz directly
+  startQuizButton.addEventListener('click', showQuiz);
 
   prevButton.addEventListener('click', () => {
-    if (currentStep > 0) {
-      setStep(currentStep - 1);
-    }
+    if (currentStep > 0) setStep(currentStep - 1);
   });
 
   nextButton.addEventListener('click', () => {
@@ -148,46 +105,48 @@ document.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => stepElement.classList.remove('shake'), 400);
       return;
     }
-    if (currentStep < steps.length - 1) {
-      setStep(currentStep + 1);
-    }
+    if (currentStep < steps.length - 1) setStep(currentStep + 1);
   });
 
-  quizForm.addEventListener('submit', async (event) => {
+  quizForm.addEventListener('submit', (event) => {
     event.preventDefault();
-    if (!leadId) {
-      alert('Please complete the first step before submitting the quiz.');
-      return;
-    }
-
     const finalStep = steps[currentStep];
     if (!stepIsValid(finalStep)) {
       finalStep.classList.add('shake');
       setTimeout(() => finalStep.classList.remove('shake'), 400);
       return;
     }
+    showPostQuizForm();
+  });
 
+  afterQuizForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const formData = new FormData(afterQuizForm);
+    const payload = Object.fromEntries(formData.entries());
     const responses = gatherResponses();
-    submitButton.disabled = true;
-    submitButton.textContent = 'Saving…';
 
     try {
-      const response = await fetch('/api/quizResponses', {
+      // Save lead
+      const leadResponse = await fetch('/api/lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      if (!leadResponse.ok) throw new Error('Failed to save lead');
+      const leadData = await leadResponse.json();
+      leadId = leadData.leadId;
+
+      // Save quiz responses
+      await fetch('/api/quizResponses', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ leadId, responses }),
       });
 
-      if (!response.ok) {
-        throw new Error('Unable to save responses');
-      }
-
+      // Thank You
       showThankYou();
-    } catch (error) {
-      alert('Something went wrong. Please try submitting again.');
-    } finally {
-      submitButton.disabled = false;
-      submitButton.textContent = 'Submit My Results →';
+    } catch (err) {
+      alert('Error saving your info. Please try again.');
     }
   });
 
