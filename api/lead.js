@@ -1,7 +1,7 @@
 import fetch from "node-fetch";
 
 export default async function handler(req, res) {
-  // ✅ Handle CORS
+  // ✅ Handle CORS preflight
   if (req.method === "OPTIONS") {
     res.setHeader("Access-Control-Allow-Origin", process.env.CORS_ALLOW_ORIGIN || "*");
     res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
@@ -17,66 +17,33 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { name, email, utm_source, utm_medium, utm_campaign, utm_content } =
-      req.body || {};
+    const { name, email, result } = req.body || {};
 
-    if (!name || !email) {
-      return res.status(400).json({ message: "Name and email are required." });
+    if (!name || !email || !result) {
+      return res.status(400).json({ message: "Name, email, and result are required." });
     }
 
-    // ✅ Construct lead object
-    const lead = {
-      id: Date.now(),
-      created_at: new Date().toISOString(),
-      name,
-      email,
-      utm_source,
-      utm_medium,
-      utm_campaign,
-      utm_content,
-    };
+    // ✅ Payload for Google Sheets
+    const row = { name, email, result };
 
-    // ✅ Prepare webhook and MailerLite tasks
-    const tasks = [];
-
-    // Forward to LEAD_WEBHOOK_URL
-    if (process.env.LEAD_WEBHOOK_URL) {
-      tasks.push(
-        fetch(process.env.LEAD_WEBHOOK_URL, {
+    // Send to Google Sheets
+    if (process.env.SHEETS_ENDPOINT) {
+      try {
+        await fetch(process.env.SHEETS_ENDPOINT, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ lead }),
-        })
-      );
+          body: JSON.stringify(row),
+        });
+        console.log("✅ Sent to Google Sheets:", row);
+      } catch (sheetErr) {
+        console.error("❌ Failed to send to Google Sheets:", sheetErr);
+      }
     }
 
-    // Forward to Google Sheets (if webhook provided)
-    if (process.env.GOOGLE_SHEETS_WEBHOOK_URL) {
-      tasks.push(
-        fetch(process.env.GOOGLE_SHEETS_WEBHOOK_URL, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            type: "lead",
-            lead,
-            row: [
-              new Date().toISOString(),
-              name,
-              email,
-              utm_source || "",
-              utm_medium || "",
-              utm_campaign || "",
-              utm_content || "",
-            ],
-          }),
-        })
-      );
-    }
-
-    // ✅ Add to MailerLite group (optional)
+    // Optional: add subscriber to MailerLite
     if (process.env.MAILERLITE_API_KEY && process.env.MAILERLITE_GROUP_ID) {
-      tasks.push(
-        fetch("https://connect.mailerlite.com/api/subscribers", {
+      try {
+        await fetch("https://connect.mailerlite.com/api/subscribers", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -87,16 +54,16 @@ export default async function handler(req, res) {
             name,
             groups: [process.env.MAILERLITE_GROUP_ID],
           }),
-        })
-      );
+        });
+        console.log("✅ Added to MailerLite:", email);
+      } catch (mlErr) {
+        console.error("❌ Failed to add to MailerLite:", mlErr);
+      }
     }
 
-    // ✅ Execute all integrations in parallel
-    await Promise.allSettled(tasks);
-
-    res.status(200).json({ leadId: lead.id });
-  } catch (error) {
-    console.error("Lead error:", error);
+    res.status(200).json({ success: true });
+  } catch (err) {
+    console.error("Lead error:", err);
     res.status(500).json({ message: "Internal server error" });
   }
 }

@@ -14,7 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const afterQuizForm = document.getElementById('afterQuizForm');
   const startQuizButton = document.getElementById('startQuizButton');
 
-  let leadId = null;
   let currentStep = 0;
 
   // Load upsell URL or fallback
@@ -127,20 +126,18 @@ document.addEventListener('DOMContentLoaded', () => {
     showPostQuizForm();
   });
 
-  // Submit post-quiz form → show thank you
+  // === FINAL SUBMIT ===
   afterQuizForm.addEventListener('submit', async (event) => {
     event.preventDefault();
     const formData = new FormData(afterQuizForm);
     const payload = Object.fromEntries(formData.entries());
     const responses = gatherResponses();
+
     // --- CREDIT EVALUATION LOGIC --- //
     const scoringMap = { A: 1, B: 2, C: 3 };
     const answers = responses.map((r) => r.answer);
-
-    // Convert each answer to points
     const totalScore = answers.reduce((sum, ans) => sum + (scoringMap[ans] || 0), 0);
 
-    // Determine credit result
     let resultText = "";
     if (totalScore <= 13) {
       resultText = "🟥 Poor credit status but can be saved";
@@ -150,47 +147,24 @@ document.addEventListener('DOMContentLoaded', () => {
       resultText = "🟩 Excellent credit status but is not making the best use of it";
     }
 
-    // Construct the row for Google Sheets
-    const row = {
-      name: payload.name,
-      email: payload.email,
-      result: resultText,
-    };
-
-    // Send to Google Sheets endpoint
-    const SHEET_ENDPOINT = "https://script.google.com/macros/s/AKfycbyVSb9_h3SgDKoQX4JV2mscAIvB17AQVGsGOxEq6NarqWSeJkpeja3Rhirmfijn7WGrhw/exec";
+    // Send to your /api/lead endpoint (server handles env vars securely)
     try {
-      await fetch(SHEET_ENDPOINT, {
+      const response = await fetch("/api/lead", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(row),
-      });
-      console.log("Result sent to Google Sheets:", row);
-    } catch (err) {
-      console.error("Failed to send to Sheets:", err);
-    }
-
-    try {
-      // Save lead
-      const leadResponse = await fetch('/api/lead', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
-      if (!leadResponse.ok) throw new Error('Failed to save lead');
-      const leadData = await leadResponse.json();
-      leadId = leadData.leadId;
-
-      // Save quiz responses
-      await fetch('/api/quizResponses', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ leadId, responses }),
+        body: JSON.stringify({
+          name: payload.name,
+          email: payload.email,
+          result: resultText,
+        }),
       });
 
+      if (!response.ok) throw new Error("Lead submission failed");
+      console.log("✅ Lead + result sent successfully");
       showThankYou();
     } catch (err) {
-      alert('Error saving your info. Please try again.');
+      console.error("❌ Error:", err);
+      alert("Error submitting your quiz. Please try again.");
     }
   });
 
