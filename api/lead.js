@@ -29,14 +29,20 @@ export default async function handler(req, res) {
     // Send to Google Sheets
     if (process.env.SHEETS_ENDPOINT) {
       try {
-        await fetch(process.env.SHEETS_ENDPOINT, {
+        const sheetResponse = await fetch(process.env.SHEETS_ENDPOINT, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(row),
         });
-        console.log("✅ Sent to Google Sheets:", row);
+
+        if (!sheetResponse.ok) {
+          const text = await sheetResponse.text(); // get body text for more info
+          console.error("❌ Google Sheets POST failed:", sheetResponse.status, sheetResponse.statusText, text, row);
+        } else {
+          console.log("✅ Sent to Google Sheets:", row);
+        }
       } catch (sheetErr) {
-        console.error("❌ Failed to send to Google Sheets:", sheetErr);
+        console.error("❌ Failed to send to Google Sheets (network error):", sheetErr, row);
       }
     }
 
