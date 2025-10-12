@@ -225,6 +225,10 @@
       fbq('init', 'META_PIXEL_ID');
       fbq('track', 'PageView');
     </script>
+    <script type="module">
+      import { injectSpeedInsights } from "https://cdn.jsdelivr.net/npm/@vercel/speed-insights/+esm";
+      injectSpeedInsights();
+    </script>
     <noscript>
       <img
         height="1"

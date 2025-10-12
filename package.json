@@ -4,11 +4,12 @@
   "description": "Lead magnet website and backend for the Ultimate Credit Guide quiz funnel.",
   "type": "module",
   "scripts": {
-  "dev": "vercel dev",
-  "start": "node api/config.js", 
-  "preview": "vercel dev --prebuilt"
+    "dev": "vercel dev",
+    "start": "node api/config.js",
+    "preview": "vercel dev --prebuilt"
   },
   "dependencies": {
+    "@vercel/speed-insights": "^1.2.0",
     "node-fetch": "^3.3.2"
   }
 }
