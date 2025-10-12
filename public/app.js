@@ -133,6 +133,42 @@ document.addEventListener('DOMContentLoaded', () => {
     const formData = new FormData(afterQuizForm);
     const payload = Object.fromEntries(formData.entries());
     const responses = gatherResponses();
+    // --- CREDIT EVALUATION LOGIC --- //
+    const scoringMap = { A: 1, B: 2, C: 3 };
+    const answers = responses.map((r) => r.answer);
+
+    // Convert each answer to points
+    const totalScore = answers.reduce((sum, ans) => sum + (scoringMap[ans] || 0), 0);
+
+    // Determine credit result
+    let resultText = "";
+    if (totalScore <= 13) {
+      resultText = "🟥 Poor credit status but can be saved";
+    } else if (totalScore <= 19) {
+      resultText = "🟨 Regular credit status but not perfect, can be improved";
+    } else {
+      resultText = "🟩 Excellent credit status but is not making the best use of it";
+    }
+
+    // Construct the row for Google Sheets
+    const row = {
+      name: payload.name,
+      email: payload.email,
+      result: resultText,
+    };
+
+    // Send to Google Sheets endpoint
+    const SHEET_ENDPOINT = "https://script.google.com/macros/s/AKfycbyFlPNdUEQ6HziMzmkYb40DjwmwQ9KcEdJZlnWhnu9CFN3Cb2y2sU-X-i32JzJO7eK-uA/exec";
+    try {
+      await fetch(SHEET_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(row),
+      });
+      console.log("Result sent to Google Sheets:", row);
+    } catch (err) {
+      console.error("Failed to send to Sheets:", err);
+    }
 
     try {
       // Save lead

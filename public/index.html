@@ -61,65 +61,73 @@
             </div>
           </div>
           <form id="quizForm" class="quiz-form">
-            <div class="quiz-step" data-question="How confident are you in understanding credit scores?">
-              <h3>How confident are you in understanding credit scores?</h3>
+            <div class="quiz-step" data-question="How do you usually handle your credit card payments?">
+              <h3>How do you usually handle your credit card payments?</h3>
               <div class="options">
-                <label><input type="radio" name="confidence" value="Very confident" required /> Very confident</label>
-                <label><input type="radio" name="confidence" value="Somewhat confident" /> Somewhat confident</label>
-                <label><input type="radio" name="confidence" value="Not confident at all" /> Not confident at all</label>
+                <label><input type="radio" name="confidence" value="A" required />I sometimes forget or pay late</label>
+                <label><input type="radio" name="confidence" value="B" /> I always pay at least the minimum on time</label>
+                <label><input type="radio" name="confidence" value="C" /> I always pay the full statement balance on time</label>
               </div>
             </div>
 
-            <div class="quiz-step" data-question="Has paying off debt ever lowered your score?">
-              <h3>Has paying off debt ever lowered your score?</h3>
+            <div class="quiz-step" data-question="What’s your average card balance compared to your limit?">
+              <h3>What’s your average card balance compared to your limit?</h3>
               <div class="options">
-                <label><input type="radio" name="payoff" value="Yes, and it confused me" required /> Yes, and it confused me</label>
-                <label><input type="radio" name="payoff" value="No, I haven’t noticed" /> No, I haven’t noticed</label>
-                <label><input type="radio" name="payoff" value="I’m not sure" /> I’m not sure</label>
+                <label><input type="radio" name="payoff" value="A" required /> Above 50% of my limit</label>
+                <label><input type="radio" name="payoff" value="B" /> Between 10% and 30%</label>
+                <label><input type="radio" name="payoff" value="C" /> Under 10%, or I pay before statement date</label>
               </div>
             </div>
 
-            <div class="quiz-step" data-question="What’s your biggest credit goal?">
-              <h3>What’s your biggest credit goal?</h3>
+            <div class="quiz-step" data-question="How many credit cards do you actively use?">
+              <h3>How many credit cards do you actively use?</h3>
               <div class="options">
-                <label><input type="radio" name="goal" value="Buy a home or car" required /> Buy a home or car</label>
-                <label><input type="radio" name="goal" value="Qualify for better cards" /> Qualify for better cards</label>
-                <label><input type="radio" name="goal" value="Boost my score fast" /> Boost my score fast</label>
-                <label><input type="radio" name="goal" value="Have peace of mind" /> Have peace of mind</label>
+                <label><input type="radio" name="goal" value="A" required /> Only one and it’s usually maxed</label>
+                <label><input type="radio" name="goal" value="B" /> Two to three, used responsibly</label>
+                <label><input type="radio" name="goal" value="C" /> Three or more, with diversified categories and managed balances</label>
               </div>
             </div>
 
-            <div class="quiz-step" data-question="Have you used a credit repair service before?">
-              <h3>Have you used a credit repair service before?</h3>
+            <div class="quiz-step" data-question="Do you use AutoPay or reminders for due dates?">
+              <h3>Do you use AutoPay or reminders for due dates?</h3>
               <div class="options">
-                <label><input type="radio" name="repair" value="Yes, and it helped" required /> Yes, and it helped</label>
-                <label><input type="radio" name="repair" value="Yes, but it didn’t work" /> Yes, but it didn’t work</label>
-                <label><input type="radio" name="repair" value="No, never tried" /> No, never tried</label>
+                <label><input type="radio" name="repair" value="A" required /> No, I manually pay when I remember</label>
+                <label><input type="radio" name="repair" value="B" /> I use reminders or calendar alerts</label>
+                <label><input type="radio" name="repair" value="C" /> Yes, I have AutoPay set for full balance</label>
               </div>
             </div>
 
-            <div class="quiz-step" data-question="How do you feel about credit cards?">
-              <h3>How do you feel about credit cards?</h3>
+            <div class="quiz-step" data-question="How often do you check your credit score or report?">
+              <h3>How often do you check your credit score or report?</h3>
               <div class="options">
-                <label><input type="radio" name="cards" value="They’re powerful when used right" required /> They’re powerful when used right</label>
-                <label><input type="radio" name="cards" value="They make me nervous" /> They make me nervous</label>
-                <label><input type="radio" name="cards" value="I avoid them completely" /> I avoid them completely</label>
+                <label><input type="radio" name="cards" value="A" required /> Rarely or never</label>
+                <label><input type="radio" name="cards" value="B" /> Occasionally (once or twice a year)</label>
+                <label><input type="radio" name="cards" value="C" /> Regularly through my bank or monitoring app</label>
               </div>
             </div>
 
-            <div class="quiz-step" data-question="If you could change one thing about your credit, what would it be?">
-              <h3>If you could change one thing about your credit, what would it be?</h3>
-              <textarea name="changeOneThing" rows="3" placeholder="Share your thoughts (optional)"></textarea>
+            <div class="quiz-step" data-question="Do you use different cards for different spending categories (travel, groceries, etc.)?">
+              <h3>Do you use different cards for different spending categories (travel, groceries, etc.)?</h3>
+              <label><input type="radio" name="cards" value="A" required /> No, I just use one for everything</label>
+                <label><input type="radio" name="cards" value="B" /> Sometimes, but not intentionally</label>
+                <label><input type="radio" name="cards" value="C" /> Yes, I optimize cards by category to earn better rewards</label>
             </div>
 
-            <div class="quiz-step" data-question="What’s your current credit score range?">
-              <h3>What’s your current credit score range?</h3>
+            <div class="quiz-step" data-question="Do you carry a balance from month to month?">
+              <h3>Do you carry a balance from month to month?</h3>
               <div class="options">
-                <label><input type="radio" name="range" value="300-499" required /> 300-499</label>
-                <label><input type="radio" name="range" value="500-579" /> 500-579</label>
-                <label><input type="radio" name="range" value="580-669" /> 580-669</label>
-                <label><input type="radio" name="range" value="670-739" /> 670-739</label>
-                <label><input type="radio" name="range" value="740+" /> 740+</label>
+                <label><input type="radio" name="range" value="A" required /> Frequently</label>
+                <label><input type="radio" name="range" value="B" /> Occasionally</label>
+                <label><input type="radio" name="range" value="C" /> Never — I pay in full</label>
+              </div>
+            </div>
+
+            <div class="quiz-step" data-question="How many new credit applications have you made in the past 12 months?">
+              <h3>How many new credit applications have you made in the past 12 months?</h3>
+              <div class="options">
+                <label><input type="radio" name="range" value="A" required /> Four or more</label>
+                <label><input type="radio" name="range" value="B" /> Two or three</label>
+                <label><input type="radio" name="range" value="C" /> One or none</label>
               </div>
             </div>
 
