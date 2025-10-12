@@ -17,19 +17,20 @@ document.addEventListener('DOMContentLoaded', () => {
   let leadId = null;
   let currentStep = 0;
 
+  // Load upsell URL or fallback
   fetch('/api/lead')
     .then((res) => res.json())
     .then((config) => {
-      if (config?.upsellUrl) {
-        offerCta.href = config.upsellUrl;
-      }
+      if (config?.upsellUrl) offerCta.href = config.upsellUrl;
     })
     .catch(() => {
       offerCta.href = 'https://payhip.com/b/Lnsjh/af68defc385c8e9';
     });
 
+  // Footer year
   document.getElementById('year').textContent = new Date().getFullYear();
 
+  // Helper: set active quiz step
   function setStep(index) {
     steps.forEach((step, idx) => {
       step.classList.toggle('active', idx === index);
@@ -42,6 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
     submitButton.style.display = index === steps.length - 1 ? 'inline-flex' : 'none';
   }
 
+  // Validate current step
   function stepIsValid(stepElement) {
     const requiredInputs = Array.from(stepElement.querySelectorAll('input[required]'));
     if (!requiredInputs.length) return true;
@@ -54,6 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Gather quiz answers
   function gatherResponses() {
     const responses = [];
     steps.forEach((step) => {
@@ -71,10 +74,13 @@ document.addEventListener('DOMContentLoaded', () => {
     return responses;
   }
 
+  // Transition functions
   function showQuiz() {
     leadCard.style.display = 'none';
     quizSection.classList.add('active');
     heroSection.classList.add('submitted');
+    postQuizForm.classList.remove('active');
+    thankYouSection.classList.remove('active');
     setStep(0);
     window.scrollTo({ top: quizSection.offsetTop - 40, behavior: 'smooth' });
   }
@@ -82,6 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function showPostQuizForm() {
     quizSection.classList.remove('active');
     postQuizForm.classList.add('active');
+    thankYouSection.classList.remove('active');
     window.scrollTo({ top: postQuizForm.offsetTop - 40, behavior: 'smooth' });
   }
 
@@ -91,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.scrollTo({ top: thankYouSection.offsetTop - 40, behavior: 'smooth' });
   }
 
-  // Start Quiz directly
+  // Button listeners
   startQuizButton.addEventListener('click', showQuiz);
 
   prevButton.addEventListener('click', () => {
@@ -108,6 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (currentStep < steps.length - 1) setStep(currentStep + 1);
   });
 
+  // Submit quiz → show post-quiz form
   quizForm.addEventListener('submit', (event) => {
     event.preventDefault();
     const finalStep = steps[currentStep];
@@ -119,6 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
     showPostQuizForm();
   });
 
+  // Submit post-quiz form → show thank you
   afterQuizForm.addEventListener('submit', async (event) => {
     event.preventDefault();
     const formData = new FormData(afterQuizForm);
@@ -143,7 +152,6 @@ document.addEventListener('DOMContentLoaded', () => {
         body: JSON.stringify({ leadId, responses }),
       });
 
-      // Thank You
       showThankYou();
     } catch (err) {
       alert('Error saving your info. Please try again.');
