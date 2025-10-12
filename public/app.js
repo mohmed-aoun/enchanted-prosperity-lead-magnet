@@ -158,7 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // Send to Google Sheets endpoint
-    const SHEET_ENDPOINT = "https://script.google.com/macros/s/AKfycbyFlPNdUEQ6HziMzmkYb40DjwmwQ9KcEdJZlnWhnu9CFN3Cb2y2sU-X-i32JzJO7eK-uA/exec";
+    const SHEET_ENDPOINT = "https://script.google.com/macros/s/AKfycbyVSb9_h3SgDKoQX4JV2mscAIvB17AQVGsGOxEq6NarqWSeJkpeja3Rhirmfijn7WGrhw/exec";
     try {
       await fetch(SHEET_ENDPOINT, {
         method: "POST",
