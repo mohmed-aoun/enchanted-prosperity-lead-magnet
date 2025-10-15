@@ -140,11 +140,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let resultText = "";
     if (totalScore <= 13) {
-      resultText = "🟥 Poor credit status but can be saved";
+      resultText = "🟥 Poor credit status";
     } else if (totalScore <= 19) {
-      resultText = "🟨 Regular credit status but not perfect, can be improved";
+      resultText = "🟨 Regular credit status";
     } else {
-      resultText = "🟩 Excellent credit status but is not making the best use of it";
+      resultText = "🟩 Excellent credit status";
     }
 
     // Send to your /api/lead endpoint (server handles env vars securely)
