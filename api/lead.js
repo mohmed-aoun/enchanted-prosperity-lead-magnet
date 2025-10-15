@@ -49,7 +49,7 @@ export default async function handler(req, res) {
     // Optional: add subscriber to MailerLite
     if (process.env.MAILERLITE_API_KEY && process.env.MAILERLITE_GROUP_ID) {
       try {
-        await fetch("https://connect.mailerlite.com/api/subscribers", {
+        const response = await fetch("https://connect.mailerlite.com/api/subscribers", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -58,10 +58,16 @@ export default async function handler(req, res) {
           body: JSON.stringify({
             email,
             name,
+            fields: {
+              credit_result: result,
+            },
             groups: [process.env.MAILERLITE_GROUP_ID],
           }),
         });
-        console.log("✅ Added to MailerLite:", email);
+
+        const text = await response.text();
+
+        console.log("✅ Added to MailerLite:", {email, result, response: text});
       } catch (mlErr) {
         console.error("❌ Failed to add to MailerLite:", mlErr);
       }
