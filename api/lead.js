@@ -46,28 +46,40 @@ export default async function handler(req, res) {
       }
     }
 
-    // Optional: add subscriber to MailerLite
-    if (process.env.MAILERLITE_API_KEY && process.env.MAILERLITE_GROUP_ID) {
+    // --- MailerLite Integration ---
+    if (process.env.MAILERLITE_API_KEY) {
       try {
-        const response = await fetch("https://connect.mailerlite.com/api/subscribers", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${process.env.MAILERLITE_API_KEY}`,
-          },
-          body: JSON.stringify({
-            email,
-            name,
-            fields: {
-              credit_result: result,
+        let groupId;
+
+        // Match result text to the correct group
+        if (result.includes("Poor")) {
+          groupId = process.env.MAILERLITE_GROUP_POOR;
+        } else if (result.includes("Regular")) {
+          groupId = process.env.MAILERLITE_GROUP_REGULAR;
+        } else if (result.includes("Excellent")) {
+          groupId = process.env.MAILERLITE_GROUP_EXCELLENT;
+        }
+
+        if (!groupId) {
+          console.warn("⚠️ No matching group found for result:", result);
+        } else {
+          const response = await fetch("https://connect.mailerlite.com/api/subscribers", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${process.env.MAILERLITE_API_KEY}`,
             },
-            groups: [process.env.MAILERLITE_GROUP_ID],
-          }),
-        });
+            body: JSON.stringify({
+              email,
+              name,
+              fields: { credit_result: result },
+              groups: [groupId],
+            }),
+          });
 
-        const text = await response.text();
-
-        console.log("✅ Added to MailerLite:", {email, result, response: text});
+          const text = await response.text();
+          console.log("✅ Added to MailerLite:", { email, result, response: text });
+        }
       } catch (mlErr) {
         console.error("❌ Failed to add to MailerLite:", mlErr);
       }
